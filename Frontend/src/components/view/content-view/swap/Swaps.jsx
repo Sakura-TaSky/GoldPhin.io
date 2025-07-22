@@ -19,7 +19,7 @@ const Swaps = () => {
   const { swapPayToken, swapReceiveToken, swapLoading, makingSwap } =
     useSelector((state) => state.swap);
   const { getSelectedSwapTokenPrice } = useSwapApi();
-  const { getSwapQuote, getSwapAllowance } = useServerApi();
+  const { getSwapAllowance } = useServerApi();
   const [payAmount, setPayAmount] = useState(0);
   const [receiveAmount, setReceiveAmount] = useState(0);
   const [payUsdPrice, setPayUsdPrice] = useState(0);

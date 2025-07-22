@@ -101,84 +101,13 @@ app.get("/swap/token-list/:chainId", async (req, res) => {
 
 // token swap
 
-// const oneInchBaseUrl = 'https://api.1inch.dev/swap/v6.1'
-
-// getQuets
-// GET `${oneInchBaseUrl}/${chainId}/quote?fromTokenAddress=…&toTokenAddress=${payTokenAddresh}&amount=${payAmountInWei}`
+// oneInchBaseUrl = 'https://api.1inch.dev/swap/v6.1'
 
 // checkApprovel
 // GET `${oneInchBaseUrl}/${chainId}/approve/allowance?tokenAddress=${payTokenAddresh}&walletAddress=${walletAddresh}`
 
 // swap
 // GET `${oneInchBaseUrl}/${chainId}/swap?fromTokenAddress=${payTokenAddresh}&toTokenAddress=${receiveTokenAddress}&amount=${payAmountInWei}&fromAddress=0x${walletAddreshg}&slippage=${slippage}`
-
-app.post("/swap/quote/:chainId", async (req, res) => {
-  const { chainId } = req.params;
-  const { walletAddress, payTokenAddress, receiveTokenAddress, payAmount } =
-    req.body;
-  if (!chainId || chainId == undefined) {
-    return res.status(400).json({
-      success: false,
-      message: "BlockChain id not Found",
-    });
-  }
-  if (!walletAddress || walletAddress == undefined) {
-    return res.status(401).json({
-      success: false,
-      message: "Wallet Address is requird",
-    });
-  }
-  if (!payTokenAddress || payTokenAddress == undefined) {
-    return res.status(400).json({
-      success: false,
-      message: "pay token Address is requird",
-    });
-  }
-  if (!receiveTokenAddress || receiveTokenAddress == undefined) {
-    return res.status(400).json({
-      success: false,
-      message: "receive token Address is requird",
-    });
-  }
-  if (!payAmount || payAmount == "0") {
-    return res.status(400).json({
-      success: false,
-      message: "amount to pay is requird",
-    });
-  }
-  try {
-    const oneInchBaseUrl = "https://api.1inch.dev/swap/v6.1";
-    const decimals = 18;
-    const amountInWei = ethers
-      .parseUnits(payAmount, Number(decimals))
-      .toString();
-
-    const response = await axios.get(`${oneInchBaseUrl}/${chainId}/quote`, {
-      headers: {
-        Authorization: `Bearer ${process.env.oneINCH_API_KEY}`,
-      },
-      params: {
-        src: payTokenAddress,
-        dst: receiveTokenAddress,
-        amount: amountInWei,
-      },
-      paramsSerializer: {
-        indexes: null,
-      },
-    });
-
-    return res.status(200).json({
-      success: true,
-      data: response.data,
-      message: "Best quote from 1Inch !",
-    });
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: error.message || "Server error, please try later",
-    });
-  }
-});
 
 app.post("/swap/check-approval/:chainId", async (req, res) => {
   const { chainId } = req.params;

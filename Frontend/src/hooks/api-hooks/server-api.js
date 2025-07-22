@@ -154,46 +154,8 @@ export default function useServerApi() {
     }
   };
 
-  const getSwapQuote = async () => {
-    if (
-      !walletAddress ||
-      !swapPayToken?.address ||
-      !swapReceiveToken?.address ||
-      !swapPayToken?.value
-    ) {
-      toast.error('Some Information is not full field');
-      return;
-    }
-    const swapQuoteData = {
-      walletAddress: walletAddress,
-      payTokenAddress: swapPayToken?.address,
-      receiveTokenAddress: swapReceiveToken?.address,
-      payAmount: swapPayToken?.value,
-    };
-    try {
-      dispatch(setMakingSwap(true));
-      const response = await axios.post(
-        `${backendUrl}/swap/quote/${walletChain.chainId}`,
-        swapQuoteData
-      );
-
-      console.log(response.data);
-    } catch (error) {
-      console.log(error);
-
-      toast.error(
-        error?.response?.data?.message ||
-          error?.message ||
-          'something went wrong'
-      );
-    } finally {
-      dispatch(setMakingSwap(false));
-    }
-  };
-
   return {
     getTokenList,
     getSwapAllowance,
-    getSwapQuote,
   };
 }
