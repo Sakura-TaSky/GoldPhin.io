@@ -238,6 +238,24 @@ export default function useCryptoApi() {
     await getWalletTransactions(true);
   };
 
+  // useEffect(() => {
+  //   const fetch = async () => {
+  //     if (location.pathname.includes('wallet')) {
+  //       await getWalletNetWorth();
+  //       if (location.pathname.includes('tokens')) {
+  //         await getTokens();
+  //       } else if (location.pathname.includes('nfts')) {
+  //         await getNfts();
+  //       } else if (location.pathname.includes('transactions')) {
+  //         await getWalletTransactions();
+  //       } else {
+  //         return;
+  //       }
+  //     }
+  //   };
+  //   fetch();
+  // }, [walletAddress, walletChain]);
+
   return {
     getWalletNetWorth,
     getTokens,

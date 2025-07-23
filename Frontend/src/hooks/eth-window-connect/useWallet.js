@@ -52,6 +52,7 @@ export const useWallet = () => {
       });
       if (accounts && accounts.length > 0) {
         setWalletData(accounts[0]);
+        localStorage.setItem('wallet', accounts[0]);
       }
     } catch (err) {
       if (
@@ -78,9 +79,12 @@ export const useWallet = () => {
     const manuallyDisconnected =
       localStorage.getItem(DISCONNECTED_KEY) === 'true';
     if (manuallyDisconnected) {
-      // user explicitly disconnected before
       setWalletData(null);
       return;
+    }
+
+    if (localStorage.getItem('wallet')) {
+      dispatch(setWalletAddress(localStorage.getItem('wallet')));
     }
 
     try {
@@ -99,7 +103,6 @@ export const useWallet = () => {
     if (!ethereum) return;
 
     checkExistingConnection();
-
     const handleAccountsChanged = (accounts) => {
       if (accounts && accounts.length > 0) {
         setWalletData(accounts[0]);

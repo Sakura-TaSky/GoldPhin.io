@@ -1,4 +1,4 @@
-export const apiKey = import.meta.env.VITE_MORALIS_API_KEY;
+export const apiKey = import.meta.env.VITE_MORALIS_API_KEY_TWO;
 export const oneInchApiKey = import.meta.env.VITE_oneINCH_API_KEY;
 export const backendUrl =
   import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';

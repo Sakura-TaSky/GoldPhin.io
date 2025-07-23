@@ -242,15 +242,6 @@ app.post("/swap/doSwap/:chainId", async (req, res) => {
       .toString();
     const oneInchBaseUrl = "https://api.1inch.dev/swap/v6.1";
 
-    console.log({
-      src: payTokenAddress,
-      dst: receiveTokenAddress,
-      amount: amountInWei,
-      from: walletAddress,
-      slippage,
-      chainId,
-    });
-
     try {
       const swap = await axios.get(`${oneInchBaseUrl}/${chainId}/swap`, {
         headers: {
@@ -285,7 +276,6 @@ app.post("/swap/doSwap/:chainId", async (req, res) => {
       }
     } catch (error) {
       const msg = error.response?.data?.description || error.message || "Error";
-      console.log(msg);
       return res.status(500).json({
         success: false,
         message: msg,
