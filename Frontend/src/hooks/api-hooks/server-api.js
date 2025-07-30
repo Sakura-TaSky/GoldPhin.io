@@ -4,9 +4,19 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'sonner';
 import { setMakingSwap, setTokenList } from '@/toolkit/slice/swapSlice';
 import { setSwapLoading } from '@/toolkit/slice/swapSlice';
+import {
+  setWalletUser,
+  setWalletUserFetched,
+  setWalletUserLoading,
+} from '@/toolkit/slice/walletSlice';
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 export default function useServerApi() {
-  const { walletChain, walletAddress } = useSelector((state) => state.wallet);
+  const location = useLocation();
+  const { walletChain, walletAddress, walletUserFetched } = useSelector(
+    (state) => state.wallet
+  );
   const { swapPayToken, swapReceiveToken } = useSelector((state) => state.swap);
   const dispatch = useDispatch();
 

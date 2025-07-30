@@ -13,7 +13,7 @@ const IconBtn = ({ icon = {}, text = '', isDanger, className = '' }) => {
       <span
         className={`${
           isDanger
-            ? 'hover:text-red-500 group-hover:text-red-500'
+            ? 'hover:text-red-500 group-hover:text-red-500 '
             : 'group-hover:text-zinc-800 dark:group-hover:text-zinc-200'
         }`}
       >

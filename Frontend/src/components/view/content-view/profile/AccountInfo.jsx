@@ -1,15 +1,16 @@
-import { useCopyToClipboard, useWallet } from '@/hooks';
+import { useCopyToClipboard, useTrim } from '@/hooks';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useSelector } from 'react-redux';
 import { BiSolidCopy } from 'react-icons/bi';
 import { IoMdDoneAll } from 'react-icons/io';
 
 const AccountInfo = () => {
-  const { walletAddress, walletProfileImg, walletChain } = useSelector(
-    (state) => state.wallet
-  );
+  const { walletAddress, walletProfileImg, walletChain, walletBalance } =
+    useSelector((state) => state.wallet);
 
   const { copy, isCopied } = useCopyToClipboard();
+
+  const trim = useTrim();
 
   return (
     <div className="flex flex-col gap-3">
@@ -40,6 +41,14 @@ const AccountInfo = () => {
           <span className="text-zinc-500">Network_</span>
           <span className="ml-4 break-all">
             {walletChain ? walletChain.name : 'connect wallet to view'}
+          </span>
+        </div>
+        <div className="flex flex-col">
+          <span className="text-zinc-500">Balance(usd)_</span>
+          <span className="ml-4 break-all">
+            {walletBalance
+              ? `$${trim(walletBalance)}`
+              : 'connect wallet to view'}
           </span>
         </div>
       </div>

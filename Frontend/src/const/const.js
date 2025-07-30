@@ -15,7 +15,7 @@ export const BlockChain = [
     hex: '0x1',
     chainId: 1,
     logo: 'https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/eth.png',
-    nativeTokenAddress: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
+    NativeTokenAddresses: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
   },
   {
     name: 'Arbitrum One',
@@ -24,7 +24,7 @@ export const BlockChain = [
     hex: '0xa4b1',
     chainId: 42161,
     logo: 'https://assets.coingecko.com/coins/images/16547/large/photo_2023-03-29_21.47.00.jpeg?1688717258',
-    nativeTokenAddress: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
+    NativeTokenAddresses: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
   },
   {
     name: 'Polygon Mainnet',
@@ -33,7 +33,7 @@ export const BlockChain = [
     hex: '0x89',
     chainId: 137,
     logo: 'https://assets.coingecko.com/coins/images/4713/large/polygon.png?1648242098',
-    nativeTokenAddress: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
+    NativeTokenAddresses: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
   },
   {
     name: 'BNB Smart Chain',
@@ -42,7 +42,7 @@ export const BlockChain = [
     hex: '0x38',
     chainId: 56,
     logo: 'https://assets.coingecko.com/coins/images/825/large/binance-coin-logo.png?1547034615',
-    nativeTokenAddress: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
+    NativeTokenAddresses: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
   },
   {
     name: 'Avalanche Mainnet',
@@ -51,7 +51,7 @@ export const BlockChain = [
     hex: '0xa86a',
     chainId: 43114,
     logo: 'https://assets.coingecko.com/coins/images/12559/large/coin-round-red.png?1604021818',
-    nativeTokenAddress: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
+    NativeTokenAddresses: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
   },
   {
     name: 'Base Mainnet',
@@ -60,7 +60,7 @@ export const BlockChain = [
     hex: '0x2105',
     chainId: 8453,
     logo: 'https://cdn.brandfetch.io/id6XsSOVVS/w/400/h/400/theme/dark/icon.jpeg?c=1bxid64Mup7aczewSAYMX&t=1751195685935',
-    nativeTokenAddress: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
+    NativeTokenAddresses: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
   },
   {
     name: 'Optimism Mainnet',
@@ -69,7 +69,7 @@ export const BlockChain = [
     hex: '0xa',
     chainId: 10,
     logo: 'https://assets.coingecko.com/coins/images/25244/large/Optimism.png?1660904599',
-    nativeTokenAddress: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
+    NativeTokenAddresses: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
   },
   {
     name: 'Linea Mainnet',
@@ -78,6 +78,6 @@ export const BlockChain = [
     hex: '0xe708',
     chainId: 59144,
     logo: 'https://imgs.search.brave.com/aOUkjGoBTWWH76bfeSOA9YYvimCA1UgcJJmdjfdye1g/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9jZG4u/Yml0a2VlcC52aXAv/b3BlcmF0aW9uL3Vf/Yl9mYmUyMWQ5MC04/M2EwLTExZWUtYmVk/Ni0yYjhiYWZjMzcy/NmUucG5n',
-    nativeTokenAddress: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
+    NativeTokenAddresses: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
   },
 ];

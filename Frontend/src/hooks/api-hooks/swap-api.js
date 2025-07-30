@@ -1,8 +1,7 @@
-import { apiKey, baseUrl } from '@/const/const';
+import { apiKey, baseUrl, BlockChain } from '@/const/const';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import {
-  setMakingSwap,
   setSwapError,
   setSwapLoading,
   setSwapPayToken,
@@ -34,6 +33,16 @@ export default function useSwapApi() {
     ARB: 'arbitrum',
     OP: 'optimism',
   };
+
+  function getWrappedTokenAddress(chainId) {
+    const addr = BlockChain.NativeTokenAddresses;
+    if (!addr) {
+      throw new Error(
+        `No wrapped token address configured for chainId ${chainId}`
+      );
+    }
+    return addr;
+  }
 
   async function fetchNativeTokenUsdPrice(symbol) {
     const coingeckoId = coingeckoIdMap[symbol?.toUpperCase()];
@@ -131,7 +140,7 @@ export default function useSwapApi() {
       dispatch(
         setSwapPayToken({
           address: isTokenOneNative
-            ? null
+            ? getWrappedTokenAddress(walletChain.chainId)
             : tokenOne?.address || tokenOne?.token_address,
           logo: tokenOne?.logo || tokenOne?.thumbnail || tokenOne?.logoURI,
           symbol: tokenOne?.symbol,
@@ -142,7 +151,7 @@ export default function useSwapApi() {
       dispatch(
         setSwapReceiveToken({
           address: isTokenTwoNative
-            ? null
+            ? getWrappedTokenAddress(walletChain.chainId)
             : tokenTwo?.address || tokenTwo?.token_address,
           logo: tokenTwo?.logo || tokenTwo?.thumbnail || tokenTwo?.logoURI,
           symbol: tokenTwo?.symbol,

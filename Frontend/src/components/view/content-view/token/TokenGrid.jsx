@@ -7,12 +7,12 @@ const TokenGrid = ({ tokens = [], filter }) => {
   const { tokenLoading } = useSelector((state) => state.token);
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
       {tokenLoading
         ? Array.from({ length: 16 }).map((_, idx) => (
             <div
               key={idx}
-              className="flex flex-col gap-8 p-4 rounded-md text-sm w-full h-full shadow-md font-medium border border-zinc-500/20 dark:bg-[#212121] smooth"
+              className="flex flex-col gap-8 p-4 rounded-md text-sm w-full h-full shadow-md font-medium border border-zinc-500/10 dark:bg-[#212121] smooth"
             >
               <div className="flex gap-8 items-center justify-between">
                 <div className="flex items-center gap-2">

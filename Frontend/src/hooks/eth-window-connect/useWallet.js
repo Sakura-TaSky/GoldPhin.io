@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   setWalletAddress,
   setWalletProfileImg,
+  setWalletUser,
+  setWalletUserFetched,
 } from '@/toolkit/slice/walletSlice';
 import { setTokens } from '@/toolkit/slice/tokenSlice';
 import { setTransactions } from '@/toolkit/slice/transactionSlice';
@@ -18,21 +20,21 @@ export const useWallet = () => {
     typeof window !== 'undefined' ? window.ethereum : null
   ).current;
 
-  // localStorage key to track manual disconnect
-  const DISCONNECTED_KEY = 'walletDisconnected';
-
   const setWalletData = (address) => {
     if (address) {
       dispatch(setWalletAddress(address));
       dispatch(setWalletProfileImg(makeBlockie(address)));
-      localStorage.removeItem(DISCONNECTED_KEY);
+      localStorage.removeItem('walletDisconnected');
+      localStorage.removeItem('wallet');
     } else {
       dispatch(setWalletAddress(null));
       dispatch(setWalletProfileImg(null));
       dispatch(setTokens([]));
       dispatch(setTransactions([]));
       dispatch(setNfts([]));
-      localStorage.setItem(DISCONNECTED_KEY, 'true');
+      dispatch(setWalletUser(null));
+      dispatch(setWalletUserFetched(false));
+      localStorage.setItem('walletDisconnected', true);
     }
   };
 
@@ -75,18 +77,16 @@ export const useWallet = () => {
 
   const checkExistingConnection = async () => {
     if (!ethereum) return;
-
-    const manuallyDisconnected =
-      localStorage.getItem(DISCONNECTED_KEY) === 'true';
+    const manuallyDisconnected = localStorage.getItem(
+      'walletDisconnected' == true
+    );
     if (manuallyDisconnected) {
       setWalletData(null);
       return;
     }
-
     if (localStorage.getItem('wallet')) {
       dispatch(setWalletAddress(localStorage.getItem('wallet')));
     }
-
     try {
       const accounts = await ethereum.request({ method: 'eth_accounts' });
       if (accounts && accounts.length > 0) {
@@ -101,7 +101,7 @@ export const useWallet = () => {
 
   useEffect(() => {
     if (!ethereum) return;
-
+    if (localStorage.getItem('walletDisconnected')) return;
     checkExistingConnection();
     const handleAccountsChanged = (accounts) => {
       if (accounts && accounts.length > 0) {
@@ -110,9 +110,7 @@ export const useWallet = () => {
         setWalletData(null);
       }
     };
-
     ethereum.on('accountsChanged', handleAccountsChanged);
-
     return () => {
       ethereum.removeListener('accountsChanged', handleAccountsChanged);
     };

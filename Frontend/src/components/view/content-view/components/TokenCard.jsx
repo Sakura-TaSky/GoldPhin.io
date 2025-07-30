@@ -6,7 +6,7 @@ const TokenCard = ({ token, filter }) => {
   const trim = useTrim();
 
   return (
-    <div className="flex flex-col gap-8 p-4 rounded-md text-sm w-full h-full shadow-md font-medium border border-zinc-500/20 dark:bg-[#1c1c1c] overflow-hidden">
+    <div className="flex flex-col gap-8 p-4 rounded-md text-sm w-full h-full shadow-md font-medium border border-zinc-500/10 dark:bg-[#1c1c1c] overflow-hidden">
       <div className="flex gap-8 items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="p-2 rounded-md shrink-0 border border-zinc-500/20 dark:bg-[#212121] shadow">

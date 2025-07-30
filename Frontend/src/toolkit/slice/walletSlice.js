@@ -9,6 +9,9 @@ const initialState = {
   walletLoading: false,
   walletError: null,
   walletNativeBalance: null,
+  walletUser: null,
+  walletUserLoading: null,
+  walletUserFetched: null,
   globelLoading: null,
 };
 
@@ -40,6 +43,15 @@ const walletSlice = createSlice({
     setGlobelLoading: (state, action) => {
       state.globelLoading = action.payload;
     },
+    setWalletUser: (state, action) => {
+      state.walletUser = action.payload;
+    },
+    setWalletUserLoading: (state, action) => {
+      state.walletUserLoading = action.payload;
+    },
+    setWalletUserFetched: (state, action) => {
+      state.walletUserFetched = action.payload;
+    },
   },
 });
 
@@ -52,6 +64,9 @@ export const {
   setWalletError,
   setWalletNativeBalance,
   setGlobelLoading,
+  setWalletUser,
+  setWalletUserLoading,
+  setWalletUserFetched,
 } = walletSlice.actions;
 
 export default walletSlice.reducer;

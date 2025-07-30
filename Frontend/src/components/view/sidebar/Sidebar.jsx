@@ -1,10 +1,6 @@
 import React, { useRef } from 'react';
 import useUiState from '@/context/UiStateContext';
-import {
-  SidebarControlBtn,
-  SidebarMenus,
-  SidebarFooterMenus,
-} from '@/components/view';
+import { SidebarControlBtn, SidebarMenus } from '@/components/view';
 import Goldphin from '@/components/logo/GoldFin';
 import { useClickOutSide, useWindowResize } from '@/hooks';
 import { Link } from 'react-router-dom';
@@ -36,7 +32,7 @@ const Sidebar = () => {
       >
         {/* logo  */}
         <div className="p-1 border-b border-zinc-500/10">
-          <Link to="/wallet">
+          <Link to="/">
             <Goldphin />
           </Link>
         </div>
@@ -44,7 +40,6 @@ const Sidebar = () => {
         {/* menus */}
         <div className="flex flex-col flex-grow overflow-y-auto gap-6 p-2 w-full justify-between scrollbar-hide">
           <SidebarMenus />
-          <SidebarFooterMenus />
         </div>
       </div>
     </>

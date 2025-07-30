@@ -39,8 +39,7 @@ export default function useCryptoApi() {
   const location = useLocation();
   const trim = useTrim();
   const dispatch = useDispatch();
-  const { walletAddress, walletChain, walletBalance, walletNativeBalance } =
-    useSelector((state) => state.wallet);
+  const { walletAddress, walletChain } = useSelector((state) => state.wallet);
   const { tokenFetched } = useSelector((state) => state.token);
   const { nftFetched } = useSelector((state) => state.nft);
   const { transactionFetched } = useSelector((state) => state.transaction);
@@ -98,7 +97,6 @@ export default function useCryptoApi() {
         return true;
       }
     } catch (err) {
-      console.log(err);
       dispatch(
         setWalletError(err.message || 'Failed to fetch wallet net worth')
       );
@@ -238,23 +236,26 @@ export default function useCryptoApi() {
     await getWalletTransactions(true);
   };
 
-  // useEffect(() => {
-  //   const fetch = async () => {
-  //     if (location.pathname.includes('wallet')) {
-  //       await getWalletNetWorth();
-  //       if (location.pathname.includes('tokens')) {
-  //         await getTokens();
-  //       } else if (location.pathname.includes('nfts')) {
-  //         await getNfts();
-  //       } else if (location.pathname.includes('transactions')) {
-  //         await getWalletTransactions();
-  //       } else {
-  //         return;
-  //       }
-  //     }
-  //   };
-  //   fetch();
-  // }, [walletAddress, walletChain]);
+  useEffect(() => {
+    const fetch = async () => {
+      if (location.pathname.includes('wallet')) {
+        await getWalletNetWorth();
+        if (
+          location.pathname.includes('tokens') ||
+          location.pathname.includes('send-receive')
+        ) {
+          await getTokens();
+        } else if (location.pathname.includes('nfts')) {
+          await getNfts();
+        } else if (location.pathname.includes('transactions')) {
+          await getWalletTransactions();
+        } else {
+          return;
+        }
+      }
+    };
+    fetch();
+  }, [walletAddress, walletChain]);
 
   return {
     getWalletNetWorth,

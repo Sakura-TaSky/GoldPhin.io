@@ -4,24 +4,12 @@ import { BlockChain } from '@/const/const';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { CgProfile } from 'react-icons/cg';
-import { MdPayment, MdColorLens } from 'react-icons/md';
-import { LuLogOut } from 'react-icons/lu';
-import { IoSunnyOutline } from 'react-icons/io5';
-import { PiMoonFill } from 'react-icons/pi';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useTheme } from '@/context/ThemeContext';
-import IconBtn from '@/components/ui/IconBtn';
-import { useShortCuts, useWallet, useCryptoApi } from '@/hooks';
+import { useShortCuts, useCryptoApi } from '@/hooks';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useDispatch, useSelector } from 'react-redux';
 import { PiListBold, PiGridFourFill } from 'react-icons/pi';
@@ -40,7 +28,7 @@ import {
   setTransactions,
 } from '@/toolkit/slice/transactionSlice';
 import { setNftFetched, setNfts } from '@/toolkit/slice/nftSlice';
-import { ShortCutKey } from '../content-view/components/ShortCutKey';
+import WalletBtn from '../content-view/components/walletBtn';
 
 const Topbar = () => {
   const { theme, lightTheme, darkTheme } = useTheme();
@@ -57,7 +45,6 @@ const Topbar = () => {
 
   const dispatch = useDispatch();
 
-  const { connectWallet, disconnectWallet, isConnecting } = useWallet();
   const { syncWallet } = useCryptoApi();
   const location = useLocation();
 
@@ -85,7 +72,7 @@ const Topbar = () => {
           <div className="flex items-center gap-2 bg-gray-500/15 shadow rounded-full p-1 pr-3 justify-center">
             <Avatar className="w-5.5 h-5.5 rounded-full">
               <AvatarImage src="https://1inch.io/img/pressRoom/1inch_without_text.webp" />
-              <AvatarFallback>1Inch</AvatarFallback>
+              <AvatarFallback>1</AvatarFallback>
             </Avatar>
             <span className="text-[10px] text-zinc-500">
               Powered by{' '}
@@ -217,126 +204,7 @@ const Topbar = () => {
             </DropdownMenu>
           </>
         )}
-        {walletAddress ? (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="profile" className="p-2">
-                <span className="text-sm font-medium ml-0.5 hidden md:block">
-                  {walletAddress.slice(0, 6)}....
-                  {walletAddress.slice(-4)}
-                </span>
-                <Avatar className="w-4.5 h-4.5">
-                  <AvatarImage src={walletProfileImg} alt="you" />
-                  <AvatarFallback>
-                    {walletAddress.slice(-1).toUpperCase()}
-                  </AvatarFallback>
-                </Avatar>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="m-2">
-              <DropdownMenuLabel>
-                <div className="flex items-center gap-3">
-                  <Avatar className="w-6 h-6">
-                    <AvatarImage src={walletProfileImg} alt="you" />
-                    <AvatarFallback>
-                      {walletAddress.slice(-1).toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="flex flex-col items-start">
-                    <span className="text-sm font-medium tracking-wider">
-                      {walletAddress.slice(0, 6)}....
-                      {walletAddress.slice(-4)}
-                    </span>
-                    <span className="text-xs text-zinc-500 font-medium -mt-0.5">
-                      {walletChain ? walletChain.name : 'Unknown Chain'}
-                    </span>
-                  </div>
-                </div>
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuGroup>
-                {[
-                  {
-                    name: 'Profile',
-                    icon: <CgProfile className="text-zinc-500" />,
-                    path: `/wallet/Crypto-profile/${walletAddress}`,
-                  },
-                  {
-                    name: 'Billings',
-                    icon: <MdPayment className="text-zinc-500" />,
-                    path: '/wallet/billings',
-                  },
-                ].map((menu) => (
-                  <Link to={menu.path} key={menu.path}>
-                    <DropdownMenuItem className="hover:bg-zinc-500/10 group">
-                      <IconBtn icon={menu.icon} text={menu.name} />
-                    </DropdownMenuItem>
-                  </Link>
-                ))}
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator />
-              <DropdownMenuGroup>
-                <DropdownMenuSub>
-                  <DropdownMenuSubTrigger className="hover:bg-zinc-500/10 group cursor-pointer">
-                    <IconBtn
-                      icon={<MdColorLens size={18} className="text-zinc-500" />}
-                      text={
-                        <>
-                          Theme <ShortCutKey keys={['shift', 't']} />
-                        </>
-                      }
-                    />
-                  </DropdownMenuSubTrigger>
-
-                  <DropdownMenuSubContent className="mr-4">
-                    {[
-                      {
-                        name: 'Light',
-                        icon: <IoSunnyOutline className="text-zinc-500" />,
-                        onClick: lightTheme,
-                      },
-                      {
-                        name: 'Dark',
-                        icon: <PiMoonFill className="text-zinc-500" />,
-                        onClick: darkTheme,
-                      },
-                    ].map((menu) => (
-                      <DropdownMenuItem
-                        key={menu.name}
-                        className="hover:bg-zinc-500/10 group"
-                        onClick={menu.onClick}
-                      >
-                        <IconBtn icon={menu.icon} text={menu.name} />
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuSubContent>
-                </DropdownMenuSub>
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                className="hover:bg-red-500/20 group"
-                onClick={disconnectWallet}
-              >
-                <IconBtn
-                  icon={
-                    <LuLogOut className="text-zinc-500 group-hover:text-red-500" />
-                  }
-                  text="Disconnect"
-                  isDanger={true}
-                />
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        ) : (
-          <Button
-            variant="connect"
-            onClick={connectWallet}
-            disabled={isConnecting}
-            className="text-yellow-900 smooth"
-          >
-            {isConnecting ? 'Open Wallet' : 'Connect Wallet'}
-          </Button>
-        )}
+        <WalletBtn />
       </div>
     </div>
   );

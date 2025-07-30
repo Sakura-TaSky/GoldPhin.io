@@ -61,7 +61,10 @@ const Swaps = () => {
 
   return (
     <div className="flex flex-col gap-3">
-      <Headers title="Swaps" description="Swap your tokens to other tokens." />
+      <Headers
+        title="Swaps"
+        description="Trade your tokens effortlessly, just like sending a message."
+      />
       <div className="flex items-center justify-center w-full mt-10">
         <div className="sawap-card flex flex-col gap-3 w-full max-w-120 rounded-xl p-2 relative">
           <div className="flex items-center justify-between gap-3 px-1">

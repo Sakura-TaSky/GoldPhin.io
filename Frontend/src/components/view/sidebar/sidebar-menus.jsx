@@ -4,8 +4,9 @@ import MenuIcon from '@/components/ui/menuIcon';
 import { useSelector } from 'react-redux';
 import { GrTransaction } from 'react-icons/gr';
 import { useLocation } from 'react-router-dom';
-import { RiTokenSwapFill, RiNftFill, RiQrCodeFill } from 'react-icons/ri';
+import { RiTokenSwapFill, RiNftFill } from 'react-icons/ri';
 import useCryptoApi from '@/hooks/api-hooks/api-crypto';
+import { useServerApi } from '@/hooks';
 
 const SidebarMenus = () => {
   const location = useLocation();
@@ -17,12 +18,12 @@ const SidebarMenus = () => {
   const address = walletAddress ? walletAddress : 'connect-wallet';
 
   const menus = [
-    {
-      name: 'Dashboard',
-      icon: <MdDashboard />,
-      link: `/wallet/dashboard/${address}`,
-      onClick: () => {},
-    },
+    // {
+    //   name: 'Dashboard',
+    //   icon: <MdDashboard />,
+    //   link: `/wallet/dashboard/${address}`,
+    //   onClick: () => {},
+    // },
     {
       name: 'Tokens',
       icon: <MdToken />,
@@ -48,11 +49,7 @@ const SidebarMenus = () => {
       name: 'Swap',
       icon: <RiTokenSwapFill />,
       link: `/wallet/swap/${address}`,
-    },
-    {
-      name: 'Send-Receive',
-      icon: <RiQrCodeFill />,
-      link: `/wallet/send-receive/${address}`,
+      onclick: () => {},
     },
   ];
 
@@ -77,6 +74,7 @@ const SidebarMenus = () => {
       <div className="flex flex-col gap-1 ml-1">
         {menusTrade.map((menu) => (
           <MenuIcon
+            onClick={menu.onclick}
             className={`${
               location.pathname.includes(menu.link.split('/')[2])
                 ? 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-800 shadow-md'
