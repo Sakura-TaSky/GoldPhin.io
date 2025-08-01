@@ -42,15 +42,15 @@ const Home = () => {
             {[
               {
                 name: 'Token',
-                path: '/wallet/tokens/address',
+                path: `/wallet/tokens/${walletAddress}`,
               },
               {
                 name: 'NFT',
-                path: '/wallet/nfts/address',
+                path: `/wallet/nfts/${walletAddress}`,
               },
               {
                 name: 'Transaction',
-                path: '/wallet/transactions/address',
+                path: `/wallet/transactions/${walletAddress}`,
               },
               // {
               //   name: 'Swap',
@@ -73,17 +73,17 @@ const Home = () => {
                 {[
                   {
                     name: 'Token',
-                    path: '/wallet/tokens/address',
+                    path: `/wallet/tokens/${walletAddress}`,
                     icon: <MdToken />,
                   },
                   {
                     name: 'NFT',
-                    path: '/wallet/nfts/address',
+                    path: `/wallet/nfts/${walletAddress}`,
                     icon: <RiNftFill />,
                   },
                   {
                     name: 'Transaction',
-                    path: '/wallet/transactions/address',
+                    path: `/wallet/transactions/${walletAddress}`,
                     icon: <GrTransaction />,
                   },
                   // {
