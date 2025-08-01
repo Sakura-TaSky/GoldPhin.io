@@ -100,7 +100,7 @@ const SwapHolder = ({ bg = false, data = {}, setPayAmount }) => {
                     getTokens();
                   }
                 }}
-                className="flex items-center gap-1 rounded-full p-1 border border-neutral-500/30 shadow cursor-pointer"
+                className="flex items-center gap-1 rounded-full p-1 border border-neutral-500/30 shadow cursor-pointer line-clamp-1 overflow-hidden max-w-[200px] "
               >
                 {data?.status == 'Pay' && swapPayToken?.symbol ? (
                   <>

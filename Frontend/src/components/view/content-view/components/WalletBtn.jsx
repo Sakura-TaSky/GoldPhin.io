@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import IconBtn from '@/components/ui/IconBtn';
 import { CgProfile } from 'react-icons/cg';
 import { MdColorLens } from 'react-icons/md';
@@ -18,20 +18,59 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useWallet } from '@/hooks';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ShortCutKey } from './ShortCutKey';
 import { useTheme } from '@/context/ThemeContext';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { useConnect, useDisconnect, useAccount } from 'wagmi';
+import {
+  setWalletAddress,
+  setWalletProfileImg,
+} from '@/toolkit/slice/walletSlice';
+import makeBlockie from 'ethereum-blockies-base64';
+import { setTokens } from '@/toolkit/slice/tokenSlice';
+import { setNfts } from '@/toolkit/slice/nftSlice';
+import { setTransactions } from '@/toolkit/slice/transactionSlice';
+
+const walletLogos = {
+  metaMask: '/svgs/metamask.png',
+  coinbaseWallet: '/svgs/coinbase.svg',
+  walletConnect: '/svgs/walletconnect.svg',
+};
+
 const WalletBtn = () => {
+  const { connectors, connect } = useConnect();
+  const { disconnect } = useDisconnect();
+  const { address } = useAccount();
+
   const { walletAddress, walletChain, walletProfileImg } = useSelector(
     (state) => state.wallet
   );
 
-  const { connectWallet, disconnectWallet, isConnecting } = useWallet();
-
   const { lightTheme, darkTheme } = useTheme();
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (address) {
+      dispatch(setWalletAddress(address));
+      try {
+        const blockie = makeBlockie(address.toLowerCase());
+        dispatch(setWalletProfileImg(blockie));
+      } catch (err) {
+        console.error('Failed to generate blockie:', err);
+      }
+    }
+  }, [address, dispatch]);
 
   return walletAddress ? (
     <DropdownMenu>
@@ -126,7 +165,14 @@ const WalletBtn = () => {
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className="hover:bg-red-500/20 group"
-          onClick={disconnectWallet}
+          onClick={() => {
+            disconnect();
+            dispatch(setWalletAddress(null));
+            dispatch(setWalletProfileImg(null));
+            dispatch(setTokens([]));
+            dispatch(setNfts([]));
+            dispatch(setTransactions([]));
+          }}
         >
           <IconBtn
             icon={
@@ -139,14 +185,34 @@ const WalletBtn = () => {
       </DropdownMenuContent>
     </DropdownMenu>
   ) : (
-    <Button
-      variant="connect"
-      onClick={connectWallet}
-      disabled={isConnecting}
-      className="text-yellow-900 smooth"
-    >
-      {isConnecting ? 'Open Wallet' : 'Connect Wallet'}
-    </Button>
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="connect" className="text-yellow-900 smooth">
+          Connect Wallet
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Connect wallet</DialogTitle>
+          <DialogDescription>
+            Choose a wallet from the list below to connect with GoldPhin.io
+          </DialogDescription>
+        </DialogHeader>
+        {connectors.map((c) => (
+          <button
+            key={c.id}
+            onClick={() => connect({ connector: c })}
+            className="cursor-pointer w-full px-3 py-2 flex gap-4 text-sm font-semibold hover:shadow-lg hover:bg-zinc-500/10 items-center border rounded-md"
+          >
+            <Avatar>
+              <AvatarImage src={walletLogos[c.type]} />
+              <AvatarFallback>{c.name.slice(0, 2)}</AvatarFallback>
+            </Avatar>
+            {c.name}
+          </button>
+        ))}
+      </DialogContent>
+    </Dialog>
   );
 };
 

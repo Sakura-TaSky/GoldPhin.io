@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sidebar, Topbar } from '@/components/view';
+import { Dashboard, Sidebar, Topbar } from '@/components/view';
 import { Route, Routes } from 'react-router-dom';
 import useUiState from '@/context/UiStateContext';
 import {
@@ -36,6 +36,7 @@ const AppLayout = () => {
                     path="transactions/:address"
                     element={<Transactions />}
                   />
+                  <Route path="dashboard/:address" element={<Dashboard />} />
                   <Route path="swap/:address" element={<Swaps />} />
                   <Route
                     path="Crypto-profile/:address"

@@ -1,7 +1,6 @@
 import useClickOutSide from './ui-hooks/useClickOutSide';
 import useShortCuts from './ui-hooks/useShortCuts';
 import useWindowResize from './ui-hooks/useWindowResize';
-import { useWallet } from './eth-window-connect/useWallet';
 import useCopyToClipboard from './utils-hooks/useCopyToClipboard';
 import useCryptoApi from './api-hooks/api-crypto';
 import useTrim from './utils-hooks/useTrim';
@@ -18,7 +17,6 @@ export {
   useClickOutSide,
   useShortCuts,
   useWindowResize,
-  useWallet,
   useCopyToClipboard,
   useCryptoApi,
   useTrim,

@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { CgMenuLeftAlt } from 'react-icons/cg';
 import { MdToken } from 'react-icons/md';
+import { Moon, Sun } from 'lucide-react';
 
 const Home = () => {
   const { theme, lightTheme, darkTheme } = useTheme();
@@ -51,10 +52,10 @@ const Home = () => {
                 name: 'Transaction',
                 path: '/wallet/transactions/address',
               },
-              {
-                name: 'Swap',
-                path: '/wallet/swap/address',
-              },
+              // {
+              //   name: 'Swap',
+              //   path: '/wallet/swap/address',
+              // },
             ].map((m) => (
               <Link key={m.name} to={m.path}>
                 <Button variant="ghost">{m.name}</Button>
@@ -63,7 +64,7 @@ const Home = () => {
           </div>
           <div className="flex md:hidden">
             <DropdownMenu>
-              <DropdownMenuTrigger>
+              <DropdownMenuTrigger asChild>
                 <Button variant="ghost">
                   <CgMenuLeftAlt />
                 </Button>
@@ -85,11 +86,11 @@ const Home = () => {
                     path: '/wallet/transactions/address',
                     icon: <GrTransaction />,
                   },
-                  {
-                    name: 'Swap',
-                    path: '/wallet/swap/address',
-                    icon: <RiTokenSwapFill />,
-                  },
+                  // {
+                  //   name: 'Swap',
+                  //   path: '/wallet/swap/address',
+                  //   icon: <RiTokenSwapFill />,
+                  // },
                 ].map((m) => (
                   <DropdownMenuItem className="p-1">
                     <Link key={m.name} to={m.path}>
@@ -105,30 +106,27 @@ const Home = () => {
           </div>
         </div>
         <div className="flex items-center gap-1">
-          <a target="_blank" href="https://github.com/Sakura-TaSky/GoldPhin.io">
-            <Button variant="ghost">
-              <GrGithub /> <span className="text-xs text-gray-500">1.2k</span>
-            </Button>
-          </a>
+          <Button
+            onClick={() => {
+              theme === 'light' ? darkTheme() : lightTheme();
+            }}
+            variant="ghost"
+          >
+            {theme === 'light' ? <Moon /> : <Sun />}
+          </Button>
           <WalletBtn />
         </div>
       </div>
       <div className="md:mt-12 mt-6 p-2 flex flex-col w-full justify-center items-center gap-1">
         <a
-          className="flex pl-3 pr-1.5 py-1 border rounded-full gap-1 items-center border-zinc-500/12 shadow-md"
+          className="flex px-3 py-1 border rounded-full gap-1 items-center border-zinc-500/12 shadow-md"
           target="_blank"
           href="https://github.com/Sakura-TaSky"
         >
-          <span className="text-[10px] font-semibold">
+          <span className="text-[10px] font-medium">
             Built by
-            <span className="text-[12px]"> Sakura</span>
+            <span className="text-[12px] font-bold"> Sakura</span>
           </span>
-          <Avatar>
-            <AvatarImage
-              className="size-4 rounded-full"
-              src="./public/svgs/apple-touch-icon.png"
-            />
-          </Avatar>
         </a>
         <div className="flex items-center justify-center flex-col text-4xl md:text-5xl font-semibold">
           <h1 className="text-center tracking-tight">

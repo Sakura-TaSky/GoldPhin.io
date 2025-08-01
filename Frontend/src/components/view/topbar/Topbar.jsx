@@ -36,7 +36,6 @@ const Topbar = () => {
   const {
     walletAddress,
     walletChain,
-    walletProfileImg,
     walletBalance,
     walletLoading,
     globelLoading,

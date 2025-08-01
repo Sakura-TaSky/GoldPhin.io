@@ -44,14 +44,14 @@ const SidebarMenus = () => {
     },
   ];
 
-  const menusTrade = [
-    {
-      name: 'Swap',
-      icon: <RiTokenSwapFill />,
-      link: `/wallet/swap/${address}`,
-      onclick: () => {},
-    },
-  ];
+  // const menusTrade = [
+  //   {
+  //     name: 'Swap',
+  //     icon: <RiTokenSwapFill />,
+  //     link: `/wallet/swap/${address}`,
+  //     onclick: () => {},
+  //   },
+  // ];
 
   return (
     <div className="flex flex-col gap-2 dark:font-light">
@@ -70,7 +70,7 @@ const SidebarMenus = () => {
           />
         ))}
       </div>
-      <span className="text-xs font-medium text-zinc-500 mt-2">Trade</span>
+      {/* <span className="text-xs font-medium text-zinc-500 mt-2">Trade</span>
       <div className="flex flex-col gap-1 ml-1">
         {menusTrade.map((menu) => (
           <MenuIcon
@@ -84,7 +84,7 @@ const SidebarMenus = () => {
             {...menu}
           />
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };

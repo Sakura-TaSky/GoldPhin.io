@@ -8,6 +8,7 @@ import Tokens from './content-view/token/Tokens';
 import Nfts from './content-view/nft/Nfts';
 import Transactions from './content-view/transaction/Transactions';
 import Swaps from './content-view/swap/Swaps';
+import Dashboard from './content-view/dashboard/Dashboard';
 
 export {
   Sidebar,
@@ -20,4 +21,5 @@ export {
   Nfts,
   Transactions,
   Swaps,
+  Dashboard,
 };
