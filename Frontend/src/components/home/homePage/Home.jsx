@@ -142,14 +142,14 @@ const Home = () => {
       <div className="flex items-center justify-center gap-2 w-full -mt-4">
         {walletAddress ? (
           <>
-            <Link to={`/wallet/swap/${walletAddress}`}>
+            {/* <Link to={`/wallet/swap/${walletAddress}`}>
               <Button variant="outline" className="rounded-full shadow-md">
                 Swap <RiTokenSwapFill />
               </Button>
-            </Link>
+            </Link> */}
             <Link to={`/wallet/tokens/${walletAddress}`}>
               <Button className="rounded-full shadow-md">
-                Dashboard <GoArrowUpRight strokeWidth={1} />
+                Enter <GoArrowUpRight strokeWidth={1} />
               </Button>
             </Link>
           </>
