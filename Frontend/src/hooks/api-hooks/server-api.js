@@ -4,19 +4,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'sonner';
 import { setMakingSwap, setTokenList } from '@/toolkit/slice/swapSlice';
 import { setSwapLoading } from '@/toolkit/slice/swapSlice';
-import {
-  setWalletUser,
-  setWalletUserFetched,
-  setWalletUserLoading,
-} from '@/toolkit/slice/walletSlice';
-import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 
 export default function useServerApi() {
-  const location = useLocation();
-  const { walletChain, walletAddress, walletUserFetched } = useSelector(
-    (state) => state.wallet
-  );
+  const { walletChain, walletAddress } = useSelector((state) => state.wallet);
   const { swapPayToken, swapReceiveToken } = useSelector((state) => state.swap);
   const dispatch = useDispatch();
 
@@ -41,7 +31,7 @@ export default function useServerApi() {
 
   // swapPayToken: {
   //   address: '';
-  //   logo: '';
+  //   logo: '';s
   //   symbol: '';
   //   usdPrice: '';
   //   value:0.0
@@ -93,6 +83,8 @@ export default function useServerApi() {
         }
       }
     } catch (error) {
+      console.log(error);
+
       toast.error(
         error?.response?.data?.message ||
           error?.message ||
@@ -119,6 +111,7 @@ export default function useServerApi() {
       payTokenAddress: swapPayToken?.address,
       receiveTokenAddress: swapReceiveToken?.address,
       payAmount: swapPayToken?.value,
+      decimal: swapPayToken?.decimal,
       slippage: 1,
     };
 
@@ -154,6 +147,7 @@ export default function useServerApi() {
         }
       }
     } catch (error) {
+      console.log(error);
       toast.error(
         error?.response?.data?.message ||
           error?.message ||

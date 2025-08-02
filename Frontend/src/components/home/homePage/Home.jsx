@@ -52,10 +52,10 @@ const Home = () => {
                 name: 'Transaction',
                 path: `/wallet/transactions/${walletAddress}`,
               },
-              // {
-              //   name: 'Swap',
-              //   path: '/wallet/swap/address',
-              // },
+              {
+                name: 'Swap',
+                path: '/wallet/swap/address',
+              },
             ].map((m) => (
               <Link key={m.name} to={m.path}>
                 <Button variant="ghost">{m.name}</Button>
@@ -86,11 +86,11 @@ const Home = () => {
                     path: `/wallet/transactions/${walletAddress}`,
                     icon: <GrTransaction />,
                   },
-                  // {
-                  //   name: 'Swap',
-                  //   path: '/wallet/swap/address',
-                  //   icon: <RiTokenSwapFill />,
-                  // },
+                  {
+                    name: 'Swap',
+                    path: '/wallet/swap/address',
+                    icon: <RiTokenSwapFill />,
+                  },
                 ].map((m) => (
                   <DropdownMenuItem className="p-1">
                     <Link key={m.name} to={m.path}>
@@ -119,11 +119,12 @@ const Home = () => {
       </div>
       <div className="md:mt-12 mt-6 p-2 flex flex-col w-full justify-center items-center gap-1">
         <a
-          className="flex px-3 py-1 border rounded-full gap-1 items-center border-zinc-500/12 shadow-md"
+          className="flex relative overflow-hidden px-3 py-1 border rounded-full gap-1 items-center border-zinc-500/20 shadow"
           target="_blank"
           href="https://github.com/Sakura-TaSky"
         >
-          <span className="text-[10px] font-medium">
+          <div className="absolute -bottom-0 inset-x-0 h-[0.5px] bg-gradient-to-r from-transparent via-blue-400 to-transparent"></div>
+          <span className="text-[10px] font-medium ">
             Built by
             <span className="text-[12px] font-bold"> Sakura</span>
           </span>
@@ -142,14 +143,14 @@ const Home = () => {
       <div className="flex items-center justify-center gap-2 w-full -mt-4">
         {walletAddress ? (
           <>
-            {/* <Link to={`/wallet/swap/${walletAddress}`}>
-              <Button variant="outline" className="rounded-full shadow-md">
+            <Link to={`/wallet/swap/${walletAddress}`}>
+              <Button variant="outline" className="shadow-md">
                 Swap <RiTokenSwapFill />
               </Button>
-            </Link> */}
-            <Link to={`/wallet/tokens/${walletAddress}`}>
-              <Button className="rounded-full shadow-md">
-                Enter <GoArrowUpRight strokeWidth={1} />
+            </Link>
+            <Link to={`/wallet/dashboards/${walletAddress}`}>
+              <Button className="shadow-md">
+                Dashboard <GoArrowUpRight strokeWidth={1} />
               </Button>
             </Link>
           </>

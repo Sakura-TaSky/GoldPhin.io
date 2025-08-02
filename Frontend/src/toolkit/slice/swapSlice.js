@@ -10,8 +10,22 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   tokenList: [],
-  swapPayToken: null,
-  swapReceiveToken: null,
+  swapPayToken: {
+    address: '',
+    logo: '',
+    symbol: '',
+    usdPrice: '',
+    value: 0.0,
+    decimal: '',
+  },
+  swapReceiveToken: {
+    address: '',
+    logo: '',
+    symbol: '',
+    usdPrice: '',
+    value: 0.0,
+    decimal: '',
+  },
   swapLoading: false,
   swapError: null,
   makingSwap: null,

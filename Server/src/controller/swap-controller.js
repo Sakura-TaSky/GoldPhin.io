@@ -121,8 +121,7 @@ const postSwapApprove = async (req, res) => {
       const msg = error.response?.data?.description || error.message;
       return res.status(500).json({
         success: false,
-        message: "Token swap error, please try later",
-        devMessage: msg,
+        message: msg || "Token swap error, please try later",
       });
     }
   } catch (error) {
@@ -141,8 +140,10 @@ const postSwapDoSwap = async (req, res) => {
     payTokenAddress,
     receiveTokenAddress,
     payAmount,
+    decimal,
     slippage,
   } = req.body;
+  console.log(req.body);
   const is = validateFields(res, {
     walletAddress,
     payAmount,
@@ -151,7 +152,7 @@ const postSwapDoSwap = async (req, res) => {
   });
   if (!is) return;
   try {
-    const decimals = 18;
+    const decimals = decimal || 18;
     const amountInWei = ethers
       .parseUnits(payAmount, Number(decimals))
       .toString();
@@ -186,16 +187,14 @@ const postSwapDoSwap = async (req, res) => {
       } else {
         return res.status(500).json({
           success: false,
-          message: "Token swap error, please try later",
-          devMessage: error.message,
+          message: error.message || "Token swap error, please try later",
         });
       }
     } catch (error) {
       const msg = error.response?.data?.description || error.message;
       return res.status(500).json({
         success: false,
-        message: "Token swap error, please try later",
-        devMessage: msg,
+        message: msg || "Token swap error, please try later",
       });
     }
   } catch (error) {

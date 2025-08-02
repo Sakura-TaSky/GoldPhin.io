@@ -34,21 +34,14 @@ export default function useSwapApi() {
     OP: 'optimism',
   };
 
-  function getWrappedTokenAddress(chainId) {
-    const addr = BlockChain.NativeTokenAddresses;
-    if (!addr) {
-      throw new Error(
-        `No wrapped token address configured for chainId ${chainId}`
-      );
-    }
-    return addr;
-  }
-
   async function fetchNativeTokenUsdPrice(symbol) {
     const coingeckoId = coingeckoIdMap[symbol?.toUpperCase()];
+
     if (!coingeckoId) {
-      toast.error(`No Usd price found for ${symbol}`);
+      toast.error(`No USD price mapping for native token: ${symbol}`);
+      return 0.0;
     }
+
     try {
       const url = `https://api.coingecko.com/api/v3/simple/price?ids=${coingeckoId}&vs_currencies=usd`;
       const response = await axios.get(url);
@@ -58,22 +51,23 @@ export default function useSwapApi() {
         response.data?.[coingeckoId]?.usdPrice;
 
       if (!usdPrice) {
-        toast.error(`No Usd price found for ${symbol}`);
+        toast.error(`No USD price found for ${symbol}`);
         return 0.0;
       }
+
       return usdPrice;
     } catch (error) {
-      dispatch(setSwapError(error.message || 'something went wrong'));
-      toast.error(`No Usd price found for ${symbol}`);
+      toast.error(`Failed to fetch price for ${symbol}`);
+      return 0.0;
     }
   }
 
-  const getSelectedSwapTokenPrice = async (tokenOne, tokenTwo) => {
-    if (!tokenOne || !tokenTwo) return;
+  const getSelectedSwapTokenPrice = async (tokenOneO, tokenTwoT) => {
+    if (!tokenOneO.symbol || !tokenTwoT.symbol) return;
 
     if (
-      tokenOne.symbol === tokenTwo.symbol ||
-      tokenOne.address === tokenTwo.address
+      tokenOneO.symbol === tokenTwoT.symbol ||
+      tokenOneO.address === tokenTwoT.address
     ) {
       dispatch(setSwapError('You can not swap same token each other'));
       toast.error('You can not swap same token each other');
@@ -83,8 +77,8 @@ export default function useSwapApi() {
     try {
       dispatch(setSwapLoading(true));
 
-      const isTokenOneNative = isNative(tokenOne);
-      const isTokenTwoNative = isNative(tokenTwo);
+      const isTokenOneNative = isNative(tokenOneO);
+      const isTokenTwoNative = isNative(tokenTwoT);
 
       const erc20Response = await axios.post(
         `${baseUrl}/erc20/prices`,
@@ -94,12 +88,12 @@ export default function useSwapApi() {
             isTokenOneNative
               ? null
               : {
-                  token_address: tokenOne?.address || tokenOne?.token_address,
+                  token_address: tokenOneO?.address || tokenOneO?.token_address,
                 },
             isTokenTwoNative
               ? null
               : {
-                  token_address: tokenTwo?.address || tokenTwo?.token_address,
+                  token_address: tokenTwoT?.address || tokenTwoT?.token_address,
                 },
           ].filter(Boolean),
         },
@@ -113,25 +107,23 @@ export default function useSwapApi() {
         toast.error('USD price not found of selected token !');
       }
 
-      let tokenOnePrice = null;
-      let tokenTwoPrice = null;
+      let tokenOne = null;
+      let tokenTwo = null;
 
       if (isTokenOneNative) {
-        tokenOnePrice = await fetchNativeTokenUsdPrice(tokenOne.symbol);
+        tokenOne = await fetchNativeTokenUsdPrice(tokenOneO.symbol);
       } else {
-        tokenOnePrice =
-          erc20Prices[0]?.usdPrice || erc20Prices[0]?.usdPriceFormatted;
+        tokenOne = erc20Prices[0] || erc20Prices[0];
       }
 
       if (isTokenTwoNative) {
-        tokenTwoPrice = await fetchNativeTokenUsdPrice(tokenTwo.symbol);
+        tokenTwo = await fetchNativeTokenUsdPrice(tokenTwoT.symbol);
       } else {
-        tokenTwoPrice =
-          erc20Prices[isTokenOneNative ? 0 : 1]?.usdPrice ||
-          erc20Prices[isTokenOneNative ? 0 : 1]?.usdPriceFormatted;
+        tokenTwo = erc20Prices[isTokenOneNative ? 0 : 1];
+        erc20Prices[isTokenOneNative ? 0 : 1];
       }
 
-      if (!tokenOnePrice || !tokenTwoPrice) {
+      if (!tokenOne || !tokenTwo) {
         dispatch(setSwapError('USD price not found of selected token !'));
         toast.error('USD price not found of selected token !');
         return;
@@ -140,22 +132,32 @@ export default function useSwapApi() {
       dispatch(
         setSwapPayToken({
           address: isTokenOneNative
-            ? getWrappedTokenAddress(walletChain.chainId)
-            : tokenOne?.address || tokenOne?.token_address,
-          logo: tokenOne?.logo || tokenOne?.thumbnail || tokenOne?.logoURI,
-          symbol: tokenOne?.symbol,
-          usdPrice: tokenOnePrice,
+            ? walletChain.NativeTokenAddresses
+            : tokenOneO?.address || tokenOneO?.token_address,
+          logo: tokenOneO?.logo || tokenOneO?.thumbnail || tokenOneO?.logoURI,
+          symbol: tokenOneO?.symbol,
+          usdPrice: isTokenOneNative
+            ? tokenOne
+            : tokenOne?.usdPrice || tokenOne?.usdPriceFormatted,
+          decimal: isTokenOneNative
+            ? tokenOne?.nativePrice?.decimals
+            : tokenOne?.tokenDecimals || 18,
         })
       );
 
       dispatch(
         setSwapReceiveToken({
           address: isTokenTwoNative
-            ? getWrappedTokenAddress(walletChain.chainId)
-            : tokenTwo?.address || tokenTwo?.token_address,
-          logo: tokenTwo?.logo || tokenTwo?.thumbnail || tokenTwo?.logoURI,
-          symbol: tokenTwo?.symbol,
-          usdPrice: tokenTwoPrice,
+            ? walletChain.NativeTokenAddresses
+            : tokenTwoT?.address || tokenTwoT?.token_address,
+          logo: tokenTwoT?.logo || tokenTwoT?.thumbnail || tokenTwoT?.logoURI,
+          symbol: tokenTwoT?.symbol,
+          usdPrice: isTokenTwoNative
+            ? tokenTwo
+            : tokenTwo?.usdPrice || tokenTwo?.usdPriceFormatted,
+          decimal: isTokenTwoNative
+            ? tokenTwo?.nativePrice?.decimals
+            : tokenTwo?.tokenDecimals || 18,
         })
       );
     } catch (error) {
