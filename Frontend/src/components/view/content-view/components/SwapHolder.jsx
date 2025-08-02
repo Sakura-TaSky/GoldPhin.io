@@ -18,11 +18,13 @@ import { AiOutlineSwap } from 'react-icons/ai';
 const SwapHolder = () => {
   const trim = useTrim();
 
+  const tokenTrim = useTrim(5);
+
   const dispatch = useDispatch();
 
   const { walletChain, walletAddress } = useSelector((state) => state.wallet);
 
-  const { swapLoading, swapPayToken, swapReceiveToken, makingSwap } =
+  const { swapLoading, swapPayToken, swapReceiveToken, makingSwap, swapError } =
     useSelector((state) => state.swap);
 
   const [payToken, setPayToken] = useState('');
@@ -54,8 +56,8 @@ const SwapHolder = () => {
   }, [swapPayToken, swapReceiveToken]);
 
   return (
-    <div className="w-full flex items-center justify-center mt-12 p-2">
-      <div className="flex md:w-120 flex-col gap-2 p-3">
+    <div className="w-full flex items-center justify-center mt-10 p-2">
+      <div className="flex md:w-120 flex-col gap-3 p-3">
         <div className="flex items-center justify-between px-0.5">
           <span className="font-semibold">Swap</span>
           <div className="flex items-center gap-2">
@@ -80,7 +82,7 @@ const SwapHolder = () => {
         </div>
         <div className="flex w-full items-center justify-center flex-col gap-1">
           <div className="w-full flex items-center justify-between border p-3 rounded-2xl border-zinc-500/20 shadow-md">
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2">
               <span className="text-xs text-zinc-500 font-medium">Pay</span>
               <input
                 type="number"
@@ -119,7 +121,7 @@ const SwapHolder = () => {
             </span>
           </div>
           <div className="w-full flex items-center justify-between p-3 rounded-2xl bg-gray-500/15 border border-zinc-500/20 shadow-md">
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2">
               <span className="text-xs text-zinc-500 font-medium">Receive</span>
               <input
                 disabled
@@ -146,7 +148,7 @@ const SwapHolder = () => {
             ) : (
               <>
                 <span>
-                  1 {swapPayToken?.symbol} = {rate ? rate : 1}{' '}
+                  1 {swapPayToken?.symbol} = {rate ? tokenTrim(rate) : 1}{' '}
                   {swapReceiveToken?.symbol}
                 </span>
                 <span className="">~{`${trim(swapPayToken?.usdPrice)}`}$</span>

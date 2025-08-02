@@ -25,7 +25,7 @@ const Sidebar = () => {
       <SidebarControlBtn />
       <div
         ref={sidebarRef}
-        className={`fixed top-0 left-0 w-60 h-screen border-r overflow-hidden border-gray-500/10 smooth z-40 backdrop-blur-3xl dark:bg-[#1a1a1a]/60 bg-white/60 md:backdrop-blur-none flex flex-col
+        className={`fixed top-0 left-0 w-60 h-screen border-r overflow-hidden border-gray-500/10 smooth z-40 dark:bg-[#1a1a1a] bg-white flex flex-col
          ${
            isSidebarOpen ? 'translate-x-0' : '-translate-x-full opacity-0'
          } smooth scrollbar-hide`}
