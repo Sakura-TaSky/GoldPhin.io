@@ -4,11 +4,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'sonner';
 import { setMakingSwap, setTokenList } from '@/toolkit/slice/swapSlice';
 import { setSwapLoading } from '@/toolkit/slice/swapSlice';
+import { useSendTransaction } from 'wagmi';
+import { toHex } from 'viem';
 
 export default function useServerApi() {
   const { walletChain, walletAddress } = useSelector((state) => state.wallet);
   const { swapPayToken, swapReceiveToken } = useSelector((state) => state.swap);
   const dispatch = useDispatch();
+
+  const { sendTransactionAsync } = useSendTransaction();
 
   const getTokenList = async () => {
     dispatch(setSwapLoading(true));
@@ -31,7 +35,7 @@ export default function useServerApi() {
 
   // swapPayToken: {
   //   address: '';
-  //   logo: '';s
+  //   logo: '';
   //   symbol: '';
   //   usdPrice: '';
   //   value:0.0
@@ -64,13 +68,22 @@ export default function useServerApi() {
               from: walletAddress,
               to: allowanceTx.to,
               data: allowanceTx.data,
-              value: allowanceTx.value,
-              gasPrice: allowanceTx.gasPrice,
+              value:
+                allowanceTx.value && allowanceTx.value !== '0'
+                  ? toHex(BigInt(allowanceTx.value))
+                  : undefined,
+              gasPrice:
+                allowanceTx.gasPrice && allowanceTx.gasPrice !== '0'
+                  ? toHex(BigInt(allowanceTx.gasPrice))
+                  : undefined,
             };
             try {
-              const txHash = await window.ethereum.request({
-                method: 'eth_sendTransaction',
-                params: [tx],
+              // Use wagmi's sendTransactionAsync instead of window.ethereum.request
+              const txHash = await sendTransactionAsync({
+                to: tx.to,
+                data: tx.data,
+                value: tx.value,
+                gasPrice: tx.gasPrice,
               });
 
               toast.success('Approval transaction sent');
@@ -124,18 +137,32 @@ export default function useServerApi() {
       if (response.data) {
         const txPayload = response.data.data.tx;
         if (txPayload) {
+          // Prepare transaction object for wagmi
           const tx = {
             from: txPayload.from.toLowerCase(),
             to: txPayload.to.toLowerCase(),
             data: txPayload.data,
-            value: `0x${BigInt(txPayload.value).toString(16)}`,
-            gasPrice: `0x${BigInt(txPayload.gasPrice).toString(16)}`,
-            gas: `0x${BigInt(txPayload.gas).toString(16)}`,
+            value:
+              txPayload.value && txPayload.value !== '0'
+                ? toHex(BigInt(txPayload.value))
+                : undefined,
+            gasPrice:
+              txPayload.gasPrice && txPayload.gasPrice !== '0'
+                ? toHex(BigInt(txPayload.gasPrice))
+                : undefined,
+            gas:
+              txPayload.gas && txPayload.gas !== '0'
+                ? toHex(BigInt(txPayload.gas))
+                : undefined,
           };
           try {
-            const txHash = await window.ethereum.request({
-              method: 'eth_sendTransaction',
-              params: [tx],
+            // Use wagmi's sendTransactionAsync instead of window.ethereum.request
+            const txHash = await sendTransactionAsync({
+              to: tx.to,
+              data: tx.data,
+              value: tx.value,
+              gasPrice: tx.gasPrice,
+              gas: tx.gas,
             });
 
             toast.success(`Swap tx sent: ${txHash}`);
