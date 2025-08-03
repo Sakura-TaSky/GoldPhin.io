@@ -10,7 +10,6 @@ dotenv.config({
 const PORT = process.env.PORT || 8000;
 
 const app = express();
-
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
@@ -24,14 +23,14 @@ app.use(
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
-        callback(new Error("Not allowed by CORS: " + origin));
+        callback(new Error("Not allowed by CORS"));
       }
     },
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // ✅ Allow POST
     credentials: true,
   })
 );
 
-// Optional: Handle preflight requests
 app.options("*", cors());
 
 app.use(express.json());
