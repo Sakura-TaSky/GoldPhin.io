@@ -11,12 +11,29 @@ const PORT = process.env.PORT || 8000;
 
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:5174",
+  "http://localhost:3001",
+  "https://gold-phin-io.vercel.app",
+];
+
 app.use(
   cors({
-    origin: "*",
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS: " + origin));
+      }
+    },
     credentials: true,
   })
 );
+
+// Optional: Handle preflight requests
+app.options("*", cors());
+
 app.use(express.json());
 
 app.use("/swap", swapRoute);
