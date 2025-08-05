@@ -13,7 +13,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "*",
+    origin: "https://gold-phin-io.vercel.app",
     credentials: true,
   })
 );
