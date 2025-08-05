@@ -5,7 +5,7 @@ const UiStateContext = createContext();
 export const UiStateProvider = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isList, setIsList] = useState(
-    () => localStorage.getItem('isList') === 'true'
+    () => localStorage.getItem('isList') === 'true' || true
   );
 
   useEffect(() => {

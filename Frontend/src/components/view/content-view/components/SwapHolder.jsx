@@ -143,7 +143,7 @@ const SwapHolder = () => {
             Rate -
             {swapLoading ? (
               <Skeleton className="h-[20px] bg-zinc-500 w-[60%]" />
-            ) : !swapPayToken.symbol || !swapReceiveToken.symbol ? (
+            ) : !swapPayToken?.symbol || !swapReceiveToken?.symbol ? (
               <span>Select tokens to see Rate !</span>
             ) : (
               <>

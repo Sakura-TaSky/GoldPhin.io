@@ -9,12 +9,11 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useLocation } from 'react-router-dom';
 import { useTheme } from '@/context/ThemeContext';
-import { useShortCuts, useCryptoApi } from '@/hooks';
+import { useShortCuts } from '@/hooks';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useDispatch, useSelector } from 'react-redux';
 import { PiListBold, PiGridFourFill } from 'react-icons/pi';
 import useUiState from '@/context/UiStateContext';
-import { MdOutlineRotateRight } from 'react-icons/md';
 import { toast } from 'sonner';
 import { setWalletChain } from '@/toolkit/slice/walletSlice';
 import {
@@ -33,18 +32,11 @@ import WalletBtn from '../content-view/components/walletBtn';
 const Topbar = () => {
   const { theme, lightTheme, darkTheme } = useTheme();
   const { isList, setIsList, isSidebarOpen } = useUiState();
-  const {
-    walletAddress,
-    walletChain,
-    walletBalance,
-    walletLoading,
-    globelLoading,
-    walletNativeBalance,
-  } = useSelector((state) => state.wallet);
+  const { walletAddress, walletChain, walletBalance, walletNativeBalance } =
+    useSelector((state) => state.wallet);
 
   const dispatch = useDispatch();
 
-  const { syncWallet } = useCryptoApi();
   const location = useLocation();
 
   useShortCuts('shift + t', () => {
@@ -106,41 +98,19 @@ const Topbar = () => {
           </div>
         )}
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-3">
         {walletAddress && (
           <>
-            <div className="hidden md:flex items-center gap-3">
+            <div className="flex items-center gap-3">
               <div className="text-xs font-medium text-gray-500 ">
                 ${walletBalance ? walletBalance : '0'}
               </div>
-              <div className="text-xs font-medium text-gray-500 ">
+              <div className="hidden md:flex text-xs font-medium text-gray-500 ">
                 {walletNativeBalance
                   ? walletNativeBalance
                   : `0 ${walletChain?.nativeToken}`}
               </div>
             </div>
-            <Button
-              disabled={walletLoading || globelLoading}
-              variant="ghost"
-              className="flex items-center gap-1 text-xs font-medium text-gray-500"
-              onClick={() =>
-                syncWallet(true).then((success) => {
-                  if (success) {
-                    toast.success('Wallet synced successfully');
-                  }
-                })
-              }
-            >
-              <MdOutlineRotateRight
-                className={`${
-                  globelLoading
-                    ? 'animate-spin'
-                    : ' hover:cursor-pointer hover:scale-110 smooth'
-                }`}
-                size={16}
-              />
-              Sync
-            </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="profile" className="p-2 smooth">

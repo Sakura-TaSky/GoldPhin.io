@@ -229,21 +229,11 @@ export default function useCryptoApi() {
     }
   };
 
-  const syncWallet = async () => {
-    await getWalletNetWorth(true);
-    await getTokens(true);
-    await getNfts(true);
-    await getWalletTransactions(true);
-  };
-
   useEffect(() => {
     const fetch = async () => {
       if (location.pathname.includes('wallet')) {
         await getWalletNetWorth();
-        if (
-          location.pathname.includes('tokens') ||
-          location.pathname.includes('send-receive')
-        ) {
+        if (location.pathname.includes('tokens')) {
           await getTokens();
         } else if (location.pathname.includes('dashboard')) {
           await getTokens();
@@ -265,6 +255,5 @@ export default function useCryptoApi() {
     getTokens,
     getNfts,
     getWalletTransactions,
-    syncWallet,
   };
 }

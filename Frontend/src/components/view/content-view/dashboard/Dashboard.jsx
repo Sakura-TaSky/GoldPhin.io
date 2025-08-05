@@ -114,7 +114,7 @@ const Dashboard = () => {
                 ))
               : tokenData?.map((token) => (
                   <TokenCard
-                    key={token.symbol || token.token_address}
+                    key={token?.symbol || token?.token_address}
                     token={token}
                   />
                 ))}
