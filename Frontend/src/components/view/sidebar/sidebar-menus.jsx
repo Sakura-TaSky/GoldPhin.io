@@ -22,7 +22,7 @@ const SidebarMenus = () => {
       name: 'Dashboard',
       icon: <MdDashboard />,
       link: `/wallet/dashboard/${address}`,
-      onClick: () => {},
+      onClick: () => (getTokens(false), getWalletTransactions(false)),
     },
     {
       name: 'Tokens',

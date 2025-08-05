@@ -25,7 +25,7 @@ node_modules
 config/
 *Config.js
 
-dist 
-/dist 
+# Ignore dist folder
 dist/
-*dist
+dist
+/dist
