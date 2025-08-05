@@ -34,6 +34,8 @@ import {
 import { useConnect, useDisconnect, useAccount } from 'wagmi';
 import {
   setWalletAddress,
+  setWalletBalance,
+  setWalletNativeBalance,
   setWalletProfileImg,
 } from '@/toolkit/slice/walletSlice';
 import makeBlockie from 'ethereum-blockies-base64';
@@ -172,6 +174,8 @@ const WalletBtn = () => {
             dispatch(setTokens([]));
             dispatch(setNfts([]));
             dispatch(setTransactions([]));
+            dispatch(setWalletBalance(null));
+            dispatch(setWalletNativeBalance(null));
           }}
         >
           <IconBtn

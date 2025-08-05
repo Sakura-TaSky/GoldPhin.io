@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { FcOk, FcCancel } from 'react-icons/fc';
 
-const Txtable = ({ transactions }) => {
+const Txtable = ({ transactions, hideDetails = false }) => {
   const trim = useTrim(6);
   const slice = useSlice();
   const formatDate = useFormatDate();
@@ -33,12 +33,16 @@ const Txtable = ({ transactions }) => {
             <TableHead className="text-zinc-500 text-xs font-medium ">
               Activity
             </TableHead>
-            <TableHead className="text-zinc-500 text-xs font-medium ">
-              Gas Fee
-            </TableHead>
-            <TableHead className="text-zinc-500 text-xs font-medium ">
-              Status
-            </TableHead>
+            {!hideDetails && (
+              <>
+                <TableHead className="text-zinc-500 text-xs font-medium ">
+                  Gas Fee
+                </TableHead>
+                <TableHead className="text-zinc-500 text-xs font-medium ">
+                  Status
+                </TableHead>
+              </>
+            )}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -69,15 +73,19 @@ const Txtable = ({ transactions }) => {
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="p-4">
-                    <div className="flex flex-col gap-1">
-                      <Skeleton className="h-2 w-8" />
-                      <Skeleton className="h-3 w-12" />
-                    </div>
-                  </TableCell>
-                  <TableCell className="p-4">
-                    <Skeleton className="h-4 w-4 rounded-full" />
-                  </TableCell>
+                  {!hideDetails && (
+                    <>
+                      <TableCell className="p-4">
+                        <div className="flex flex-col gap-1">
+                          <Skeleton className="h-2 w-8" />
+                          <Skeleton className="h-3 w-12" />
+                        </div>
+                      </TableCell>
+                      <TableCell className="p-4">
+                        <Skeleton className="h-4 w-4 rounded-full" />
+                      </TableCell>
+                    </>
+                  )}
                 </TableRow>
               ))
             : transactions.map((tx) => (
@@ -152,23 +160,27 @@ const Txtable = ({ transactions }) => {
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="p-3">
-                    {tx._Fee && (
-                      <div className="flex flex-col text-xs">
-                        <span className="text-[10px]">gasFee</span>
-                        <span>{trim(tx._Fee)} Eth</span>
-                      </div>
-                    )}
-                  </TableCell>
-                  <TableCell className="p-3">
-                    <span>
-                      {tx._status == 'Success' ? (
-                        <FcOk size={16} />
-                      ) : (
-                        <FcCancel size={16} />
-                      )}
-                    </span>
-                  </TableCell>
+                  {!hideDetails && (
+                    <>
+                      <TableCell className="p-3">
+                        {tx._fee && (
+                          <div className="flex flex-col text-xs">
+                            <span className="text-[10px]">gasFee</span>
+                            <span>{trim(tx?._fee)} Eth</span>
+                          </div>
+                        )}
+                      </TableCell>
+                      <TableCell className="p-3">
+                        <span>
+                          {tx._status == 'Success' ? (
+                            <FcOk size={16} />
+                          ) : (
+                            <FcCancel size={16} />
+                          )}
+                        </span>
+                      </TableCell>
+                    </>
+                  )}
                 </TableRow>
               ))}
         </TableBody>

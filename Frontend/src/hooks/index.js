@@ -4,14 +4,13 @@ import useWindowResize from './ui-hooks/useWindowResize';
 import useCopyToClipboard from './utils-hooks/useCopyToClipboard';
 import useCryptoApi from './api-hooks/api-crypto';
 import useTrim from './utils-hooks/useTrim';
-import getDominantColor from './utils-hooks/getDominantColor';
-import useDominantColor from './ui-hooks/useDominantColor';
 import getTxFilterData from './utils-hooks/getTxFilterData';
 import useSlice from './utils-hooks/useSlice';
 import useFormatDate from './utils-hooks/useFormatDate';
 import useLoadMoreApiCrypto from './api-hooks/loadmore-api-crypto';
 import useServerApi from './api-hooks/server-api';
 import useSwapApi from './api-hooks/swap-api';
+import { getDominantColor } from './ui-hooks/getDominantColor';
 
 export {
   useClickOutSide,
@@ -20,12 +19,11 @@ export {
   useCopyToClipboard,
   useCryptoApi,
   useTrim,
-  getDominantColor,
-  useDominantColor,
   getTxFilterData,
   useSlice,
   useFormatDate,
   useLoadMoreApiCrypto,
   useServerApi,
   useSwapApi,
+  getDominantColor,
 };

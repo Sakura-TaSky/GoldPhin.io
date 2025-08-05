@@ -148,7 +148,7 @@ const Home = () => {
                 Swap <RiTokenSwapFill />
               </Button>
             </Link>
-            <Link to={`/wallet/dashboards/${walletAddress}`}>
+            <Link to={`/wallet/dashboard/${walletAddress}`}>
               <Button className="shadow-md">
                 Dashboard <GoArrowUpRight strokeWidth={1} />
               </Button>

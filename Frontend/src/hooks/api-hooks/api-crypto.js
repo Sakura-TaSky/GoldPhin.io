@@ -245,6 +245,9 @@ export default function useCryptoApi() {
           location.pathname.includes('send-receive')
         ) {
           await getTokens();
+        } else if (location.pathname.includes('dashboard')) {
+          await getTokens();
+          await getWalletTransactions();
         } else if (location.pathname.includes('nfts')) {
           await getNfts();
         } else if (location.pathname.includes('transactions')) {

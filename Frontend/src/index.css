@@ -32,6 +32,9 @@
   border-radius: 6px;
 }
 
+.bg-grid {
+}
+
 .custom-scroll::-webkit-scrollbar-thumb:hover {
   background-color: rgba(107, 114, 128, 1);
 }

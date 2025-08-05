@@ -277,7 +277,7 @@ const Transactions = () => {
       {transactionFetchMore &&
         !transactionSecondaryLoading &&
         !transactionLoading && (
-          <div className="flex w-full justify-center h-20 items-center">
+          <div className="flex w-full justify-center h-20 items-center smooth">
             <Button
               variant="loadMore"
               className="w-[max-content]"

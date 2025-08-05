@@ -1,4 +1,4 @@
-export const apiKey = import.meta.env.VITE_MORALIS_API_KEY_TWO;
+export const apiKey = import.meta.env.VITE_MORALIS_API_KEY_FOUR;
 export const backendUrl =
   import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
 
@@ -10,7 +10,7 @@ export const BlockChain = [
   {
     name: 'Ethereum Mainnet',
     symbol: 'ETH',
-    nativeToken: 'ETH',
+    e: 'ETH',
     hex: '0x1',
     chainId: 1,
     logo: 'https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/eth.png',

@@ -5,7 +5,10 @@ export default function getTxFilterData(tx, walletAddress) {
     const entryImage = tx.from_address_entity_logo || tx.to_address_entity_logo;
     const status = tx.receipt_status == 1 ? 'Success' : 'Failed';
     const gasFee =
-      tx.from_address === walletAddress ? tx.transaction_fee : null;
+      tx.from_address?.toLowerCase() === walletAddress?.toLowerCase()
+        ? tx.transaction_fee
+        : null;
+
     const tokens =
       tx.category == 'approve'
         ? [tx.contract_interactions?.approvals?.map((a) => a.token)]
@@ -38,7 +41,7 @@ export default function getTxFilterData(tx, walletAddress) {
       _entryName: entryName,
       _entryImage: entryImage,
       _entryLabel: entryLabel,
-      _Fee: gasFee,
+      _fee: gasFee,
       _status: status,
       _time: tx.block_timestamp,
     };
